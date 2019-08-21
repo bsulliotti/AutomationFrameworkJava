@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+
+    <test verbose="2" preserve-order="true" name="Automated Framework">
+
+        <classes>
+            <class name="testCases.ManageVtenant.TC_VTenants">
+                <methods>
+                    <include name="TC_1839"/>
+                    <include name="TC_1840"/>
+                    <include name="TC_1841"/>
+                    <include name="TC_1842"/>
+                    <include name="TC_1843"/>
+                    <include name="TC_1844"/>
+                    <include name="TC_1845"/>
+                    <include name="TC_1846"/>
+                    <include name="TC_1847"/>
+                    <include name="TC_1848"/>
+                    <include name="TC_1849"/>
+                    <include name="TC_1850"/>
+                    <include name="TC_1851"/>
+                    <include name="TC_1861"/>
+                    <include name="TC_1862"/>
+                </methods>
+            </class>
+            <class name="testCases.TC_1688">
+                <methods>
+                    <include name="LogIn"/>
+                </methods>
+            </class>
+            <class name="testCases.TC_1689">
+                <methods>
+                    <include name="LoadPage"/>
+                    <include name="LoadUserReports"/>
+                </methods>
+            </class>
+            <class name="testCases.TC_LogOut">
+                <methods>
+                    <include name="LogOut"/>
+                </methods>
+            </class>
+        </classes>
+
+    </test>
+
+</suite>

@@ -1,0 +1,58 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- master
+- TestCases
+
+stages:
+- stage: build
+  jobs:
+  - job: run_build
+    pool:
+      name: BS-Milan01
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: false
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        goals: 'clean compile'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      inputs: 
+        PathtoPublish: 'target'
+
+- stage: test
+  jobs:
+  - job: run_tests
+    pool:
+      name: cvselenium
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: false
+        testResultsFiles: '**/failsafe-reports/TEST-*.xml'
+        goals: 'verify'
+      continueOnError: true
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results (JUnit)'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/TEST-*.xml'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish HTML report'
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)\target\failsafe-reports\emailable-report.html'
+        ArtifactName: 'HTML report'
